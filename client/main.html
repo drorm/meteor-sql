@@ -1,0 +1,83 @@
+<head>
+	<meta charset="utf-8">
+		<title>Meteor SQL Demo</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<style type="text/css">
+				body {
+					padding-top: 60px;
+					padding-bottom: 40px;
+				}
+			</style>
+
+</head>
+
+<body>
+	<div class="container">
+		<h1> Meteor SQL </h1>
+		<form >                                                         
+			<fieldset>
+				<div class='formFields' id="{{args.inputId}}">
+					{{#each formFields}}
+					{{> formField}}
+					{{/each}}
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input id='fieldInsert' type="text" class="input">
+
+						<button id ="insert" class="btn btn-large btn">Insert</button> 
+						<div id='insertResult'> </div>
+					</div>
+					</div>
+				<div class="control-group">
+					<div class="controls">
+						<input id='fieldUpdate' type="text" class="input">
+
+						<button id ="update" class="btn btn-large btn">Update</button> 
+						<div id='updateResult'> </div>
+					</div>
+					</div>
+				<div class="control-group">
+					<div class="controls">
+						<input id='fieldRemove' type="text" class="input">
+
+						<button id ="remove" class="btn btn-large btn">Delete</button> 
+						<div id='deleteResult'> </div>
+					</div>
+					</div>
+				</fieldset>
+			</form>
+
+			{{> show}}
+		</div>
+	</body>
+
+	<template name="show">
+		<div class='row'>
+			<h4>
+				<div class='span2'>
+					id
+				</div>
+				<div class='span2'>
+					b
+				</div>
+			</h4>
+		</div>
+		{{#each rows}}
+		{{> row}}
+		{{/each}}
+	</template>
+
+
+	<template name="row">
+		<div class='row'>
+			<h5>
+				<div class='span2'>
+					{{a}}
+				</div>
+				<div class='span2'>
+					{{b}}</h5>
+			</div>
+		</h5>
+	</template>
+
