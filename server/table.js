@@ -138,8 +138,6 @@ Devwik.SQL.publishTables = function() {
 			console.log(Devwik.SQL.tables);
 			var self = this;
 		_.each(Devwik.SQL.tables, function(table, name){
-			console.log('added:' + name);
-			console.log(table);
 			self.added(tableCollection, name, table);
 		});
 		self.ready();//indicate that the initial rows are ready

@@ -13,6 +13,6 @@ var dbConfig = {
 
 var triggerSuffix = 'MeteorTrigger',
 	pollInterval = 100, //How often in ms we poll for changes in the db
-	dbPrefix= 'meteor_',
+	dbPrefix= 'meteor_',//Prefix for Meteor's tables
 	tableCollection = dbPrefix + 'tables', //where we keep the table sctruture
 	dbChanges = dbPrefix + 'dbchanges';//Table that keeps track of changes

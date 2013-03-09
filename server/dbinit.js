@@ -28,11 +28,10 @@ pool.getConnection(function(err, connection) {
 					//Get the info about the table and its columns
 					var table = new Devwik.SQL.Table(row.Tables_in_meteor); 
 					Devwik.SQL.tables[table.name] = table;
-					console.log(table.name);
+					console.log('loading:' + table.name);
 				}
 			});
-			Devwik.SQL.publishTables(Devwik.SQL.tables);
-			Devwik.SQL.runTests();//Load some data into the tables
+			Devwik.SQL.publishTables();
 			var elapsed = new Date() - start;
 			console.log('----------' + new Date() + ' SQL Driver ready:' + elapsed + '--------');
 		}).run();

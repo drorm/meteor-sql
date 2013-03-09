@@ -28,6 +28,7 @@ This is an initial implementation of Meteor SQL. It currently only supports MySQ
  * run meteor in the app's directory so that it builds the hierarchy in the .meteor directory
  * cd .meteor/local/build/server/
  * sudo npm install mysql@2.0.0-alpha7
+* Change the database config params in server/dbconfig.js to match the password you entered above as well as anything else needed
 
 # Approach
 * insert into the audit trail table information about insert, update, delete
