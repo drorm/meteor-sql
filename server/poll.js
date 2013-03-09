@@ -23,13 +23,13 @@ Devwik.SQL.doPoll = function() {
 				case 'INSERT':
 				case 'UPDATE':
 					statement = 'select * from ' + change.tableName + ' where ' + 
-						table.autoIncrement + ' = ' + change.rowId;
+						table.dbKey + ' = ' + change.rowId;
 					row = Devwik.SQL.execStatement(statement)[0];
 					if (row) {//Could have been deleted before we apply the insert/update
 						if(change.type == 'INSERT') {
-							table.added(table.name, row[table.autoIncrement], row);
+							table.added(table.name, row[table.dbKey], row);
 						} else {
-							table.changed(table.name, row[table.autoIncrement], row);
+							table.changed(table.name, row[table.dbKey], row);
 						}
 					}
 					break;

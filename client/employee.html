@@ -1,0 +1,90 @@
+<template name="devwikEmployees">
+	<div>
+		<div class='row'>
+			<div class= 'span9 offset2'
+					<form class="form-inline">
+						<input id='inputFirst' type="text" class="input-small" placeholder="First">
+						<input id='inputLast' type="text" class="input-small" placeholder="Last">
+						<input id='inputTitle' type="text" class="input-small" placeholder="Title">
+						<input id='inputEmail' type="text" class="input-small" placeholder="Email">
+						<button id ="insert" class="btn btn">Insert</button> 
+						<div id='insertResult'> </div>
+					</form>
+					<form class="form-inline">
+						<input id='updateFirst' type="text" class="input-small" placeholder="First">
+						<input id='updateLast' type="text" class="input-small" placeholder="Last">
+						<input id='updateTitle' type="text" class="input-small" placeholder="Title">
+						<input id='updateEmail' type="text" class="input-small" placeholder="Email">
+						<select id='updateId'>
+							{{#each eSelects}}
+							{{> eSelect}}
+							{{/each}}
+						</select> 
+						<button id="update" class="btn btn">Update</button> 
+						<div id='insertResult'> </div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+		{{> employeeRows}}
+	</template>
+
+	<template name="employeeRows">
+		<div class='row'>
+			<h4>
+				<div class='span1'>
+				</div>
+				<div class='span1'>
+					Id
+				</div>
+				<div class='span2'>
+					First
+				</div>
+				<div class='span2'>
+					Last
+				</div>
+				<div class='span2'>
+					Title 
+				</div>
+				<div class='span2'>
+					Email
+				</div>
+			</h4>
+		</div>
+		{{#each employees}}
+		{{> employee}}
+		{{/each}}
+	</template>
+
+
+	<template name="employee">
+		<div id={{employeeNumber}} class='row'>
+			<div class='span1'>
+				<button onclick='deleteEmployee({{employeeNumber}})' 
+						class="deleteRow btn btn-mini btn-danger">
+					<i class="icon-trash icon-white"></i>
+					delete</button> 
+			</div>
+			<div class='span1'>
+				{{employeeNumber}}
+			</div>
+			<div class='span2'>
+				{{firstName}}
+			</div>
+			<div class='span2'>
+				{{lastName}}
+			</div>
+			<div class='span2'>
+				{{jobTitle}}
+			</div>
+			<div class='span2'>
+				{{email}}
+			</div>
+		</div>
+	</template>
+
+
+	<template name="eSelect">
+			<option value="{{employeeNumber}}">{{employeeNumber}}</option>
+	</template>

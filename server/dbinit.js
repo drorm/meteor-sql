@@ -22,15 +22,16 @@ pool.getConnection(function(err, connection) {
 		Fiber(function() {
 			Devwik.SQL.dbChanges();
 			Devwik.SQL.Poll();
-			Devwik.SQL.tables = [];
+			Devwik.SQL.tables = {};
 			_.each(result, function(row){ //For each table in the db
 				if(!(row.Tables_in_meteor === dbChanges)) {
 					//Get the info about the table and its columns
 					var table = new Devwik.SQL.Table(row.Tables_in_meteor); 
 					Devwik.SQL.tables[table.name] = table;
+					console.log(table.name);
 				}
 			});
-			console.log(Devwik.SQL.tables);
+			Devwik.SQL.publishTables(Devwik.SQL.tables);
 			Devwik.SQL.runTests();//Load some data into the tables
 			var elapsed = new Date() - start;
 			console.log('----------' + new Date() + ' SQL Driver ready:' + elapsed + '--------');
@@ -59,7 +60,7 @@ Devwik.SQL.execStatement(createStatement, false);
 Devwik.SQL.execStatement('drop index dbchangesIndex on ' + dbChanges, true);
 var createIndex = 'create index dbchangesIndex on ' + dbChanges + '(ts)';
 Devwik.SQL.execStatement(createIndex, true);
-var statement = squel.delete().from(dbChanges);
+var statement = squel.remove().from(dbChanges);
 Devwik.SQL.execStatement(statement.toString());
 };
 

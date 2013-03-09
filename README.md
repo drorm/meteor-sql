@@ -37,5 +37,6 @@ This is an initial implementation of Meteor SQL. It currently only supports MySQ
 
 # Future
 * Support joins
+* Support prepared statements
 * Support views
-* Handle transactions (possible, but 
+* Handle transactions. It's possible right now, but make it cleaner.
