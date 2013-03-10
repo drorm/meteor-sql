@@ -1,6 +1,9 @@
+/*
+ * Meteor SQL Driver main file. Initializes the driver and sets up all the tables.
+ */
 var require = __meteor_bootstrap__.require,
 Future = require('fibers/future'),
-//Using https://github.com/felixge/node-mysql
+//Using the node.js MYSQL driver from https://github.com/felixge/node-mysql
 mysql = require('mysql');
 
 start = new Date();
@@ -20,7 +23,9 @@ pool.getConnection(function(err, connection) {
 	query = connection.query('show tables', function(err, result) {
 		if (err) throw err;
 		Fiber(function() {
+			//Set up the table where we track changes to the db
 			Devwik.SQL.dbChanges();
+			// Poll the table with changes
 			Devwik.SQL.Poll();
 			Devwik.SQL.tables = {};
 			_.each(result, function(row){ //For each table in the db
@@ -31,6 +36,7 @@ pool.getConnection(function(err, connection) {
 					console.log('loading:' + table.name);
 				}
 			});
+			//Meteor.publish the tables to the client
 			Devwik.SQL.publishTables();
 			var elapsed = new Date() - start;
 			console.log('----------' + new Date() + ' SQL Driver ready:' + elapsed + '--------');

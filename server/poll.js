@@ -1,6 +1,7 @@
 
 /*
- * Set up polling the db for changes
+ * Set up polling the db for changes.  Create a trigger that inserts a row into the
+ * dbChanges table for each each INSERT, UPDATE and DELETE
  */
 Devwik.SQL.Poll = function() {
 	Devwik.SQL.Poll.lastChangeId = 0;//Id of the most recent change

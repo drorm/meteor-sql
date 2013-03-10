@@ -1,5 +1,7 @@
-//Database properites
-//TODO: Namespace everything in here
+/*
+ * Configuration of the Meteor SQL Driver
+ */
+//Database properties. Change to match your site
 var database ='meteor',
 	user ='meteor',
 	host ='localhost',
