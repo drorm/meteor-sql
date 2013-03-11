@@ -1,5 +1,5 @@
 "use strict";
-Meteor.Joing = function(name) {
+Meteor.Select = function(name) {
 	Meteor.subscribe(name);
 	var myCollection = new Meteor.Collection(name);
 

@@ -27,6 +27,7 @@ pool.getConnection(function(err, connection) {
 			Devwik.SQL.dbChanges();
 			// Poll the table with changes
 			Devwik.SQL.Poll();
+			Devwik.SQL.runTests();
 			Devwik.SQL.tables = {};
 			_.each(result, function(row){ //For each table in the db
 				if(!(row.Tables_in_meteor === dbChanges)) {
@@ -75,9 +76,11 @@ Devwik.SQL.execStatement(statement.toString());
  * @param {Boolean} ignoreErr -- optional. By default, we throw an exception on error
  * This makes us ignore the error. 
  * @returns {Array} result. The rows, if any returned by the query
- * TODO: We actually should no throw an error as a rule.
+ * TODO: We actually should not throw an error as a rule.
+ * TODO: escapge to avoid SQL injection
  */
 Devwik.SQL.execStatement = function(statement, ignoreErr) {
+	//statement = Devwik.SQL.connection.escape(statement);//TODO: is this good enough to avoid injections?
 	var future = new Future();
 	query = Devwik.SQL.connection.query(statement, function(err, result) {
 		//console.log(statement); //TODO: provide a way to show

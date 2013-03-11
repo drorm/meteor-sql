@@ -1,8 +1,8 @@
 var notDone = true;
-var Select = new Meteor.Table('empsCities');
+var Select = new Meteor.Select('empsCities');
 
 
-	Template.devwikSelect.selects = function () {
+	Template.devwikSelects.selects = function () {
 		return Select.find({});
 	};
 

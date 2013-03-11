@@ -2,7 +2,6 @@
  * Handle calls from the client
  */
 Meteor.methods({
-		//TODO: Remember Bobby, need to sanitize all the data
 		SQLinsert: function (table, args) {
 			try {
 				var statement = squel.insert().into(table);

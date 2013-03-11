@@ -16,6 +16,7 @@
 				<h1> Meteor SQL </h1>
 				<ul class="nav nav-pills active" id="formBuilderTabs">
 					<li class='active' ><a data-toggle='pill' href="#employeeTable">Employee Table</a></li>
+					<li ><a data-toggle='pill' href="#select">Select with Join</a></li>
 					<li ><a data-toggle='pill' href="#schema">Database Schema</a></li>
 				</ul>
 
@@ -24,6 +25,9 @@
 						<div  class='row'>
 							{{> devwikEmployees}}
 						</div>
+					</div>
+					<div class="pill-pane" id="select">
+							{{> devwikSelects}}
 					</div>
 					<div class="pill-pane" id="schema">
 							{{> devwikTables}}

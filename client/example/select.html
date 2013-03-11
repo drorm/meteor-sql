@@ -1,4 +1,17 @@
-<template name="devwikSelect">
+<template name="devwikSelects">
+		<div class='row'>
+
+			On the server:
+			<pre> new Devwik.SQL.Select('empsCities', 'select employees.*, offices.city from employees, offices where offices.officeCode = employees.officecode');
+		</pre>
+On the client:
+			<pre> var Select = new Meteor.Select('empsCities'); </pre>
+		And then just use standard Meteor operations:
+			<pre> Template.devwikSelects.selects = function () {
+	return Select.find({});
+}; </pre>
+			<p>
+		</div>
 		<div class='row'>
 			<h4>
 				<div class='span1'>

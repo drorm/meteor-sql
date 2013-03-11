@@ -11,7 +11,7 @@ Devwik.SQL.Table = function(name) {
 	self.cols = [];
 	var future = new Future();
 	//Get the structure for a table
-	Devwik.SQL.connection.query('describe ' + name, function(err, rows, fields) {
+	Devwik.SQL.connection.query('describe ' + name, function(err, rows) {
 		if (err) throw err;
 		_.each(rows, function(row){
 			var col = new Devwik.SQL.Column(row);
@@ -148,8 +148,6 @@ Devwik.SQL.Table.prototype.createTriggers = function() {
 	 */
 	Devwik.SQL.publishTables = function() {
 		Meteor.publish(tableCollection, function () {
-			console.log('publish:' + tableCollection);
-			console.log(Devwik.SQL.tables);
 			var self = this;
 			_.each(Devwik.SQL.tables, function(table, name){
 				self.added(tableCollection, name, table);
