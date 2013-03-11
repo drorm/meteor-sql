@@ -1,6 +1,7 @@
 <template name="devwikSelects">
 		<div class='row'>
 
+			<strong> Selects are currently not <a href='http://docs.meteor.com/#reactivity'>reactive.</a></strong><br/>
 			On the server:
 			<pre> new Devwik.SQL.Select('empsCities', 'select employees.*, offices.city from employees, offices where offices.officeCode = employees.officecode');
 		</pre>

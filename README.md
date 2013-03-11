@@ -11,12 +11,12 @@ This is an initial implementation of Meteor SQL. It currently only supports MySQ
  * Changes are handled by triggers, no diffs to existing queries needed
  * Polling is done on a single indexed table, very little overhead.
 * includes https://github.com/hiddentao/squel for cleaner query construction
+* Partial support for general select statements. They work correctly, but are not reactive
 
 # Limitations
 * Client side the collection still use mongo syntax for find()
 * All tables need to have a unique id 
 * Insert, Update and Delete operations on the client don't update the data locally. Instead they run on the server and then the server refreshes the client's data. This could result in slower refresh times, but guarantees that the client always sees data that has been commited to the db. It also means that unlike minmongo, the full range of SQL options are available to the client.
-
 
 #Installation
 
@@ -30,14 +30,14 @@ This is an initial implementation of Meteor SQL. It currently only supports MySQ
  * sudo npm install mysql
 * Change the database config params in server/dbconfig.js to match the password you entered above as well as anything else needed
 
-# Approach
+# Implementation Approach
 * insert into the audit trail table information about insert, update, delete
 * poll the audit table
 * When there is a change, publish it using Meteor's standard Meteor.publish
 * Client operations, insert, update, delete use Meteor.call
 
 # Future
-* Support joins
+* Make select statement reactive
 * Support prepared statements
 * Support views
 * Handle transactions. It's possible right now, but make it cleaner.

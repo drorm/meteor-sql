@@ -1,6 +1,19 @@
 <template name="devwikEmployees">
 	<div>
 		<div class='row'>
+			<h3> Table handling </h3>
+			Database tables are detected automatically, you need do nothing on the server.
+			On the client
+On the client:
+<pre> var Employee = new Meteor.Table('employees');</pre>
+Defines the Table object. and you use it:
+<pre> Template.employeeRows.employees = function () {
+  return Employee.find({}, {sort: {employeeNumber: -1}});
+};</pre>
+Notice that the on the client we're still using minimongo not SQL.
+<br/>
+		</div>
+		<div class='row'>
 			<div class= 'span9 offset2'
 					<form class="form-inline">
 						<input id='inputFirst' type="text" class="input-small" placeholder="First">
