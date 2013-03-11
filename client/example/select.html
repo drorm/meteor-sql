@@ -1,0 +1,53 @@
+<template name="devwikSelect">
+		<div class='row'>
+			<h4>
+				<div class='span1'>
+					City
+				</div>
+				<div class='span1'>
+					Id
+				</div>
+				<div class='span2'>
+					First
+				</div>
+				<div class='span2'>
+					Last
+				</div>
+				<div class='span2'>
+					Title 
+				</div>
+				<div class='span2'>
+					Email
+				</div>
+			</h4>
+		</div>
+		{{#each selects}}
+		{{> select}}
+		{{/each}}
+	</template>
+
+
+	<template name="select">
+		<div id={{employeeNumber}} class='row'>
+			<div class='span1'>
+				{{city}}
+			</div>
+			<div class='span1'>
+				{{employeeNumber}}
+			</div>
+			<div class='span2'>
+				{{firstName}}
+			</div>
+			<div class='span2'>
+				{{lastName}}
+			</div>
+			<div class='span2'>
+				{{jobTitle}}
+			</div>
+			<div class='span2'>
+				{{email}}
+			</div>
+		</div>
+	</template>
+
+
