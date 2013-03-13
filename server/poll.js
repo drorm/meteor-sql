@@ -28,14 +28,20 @@ Devwik.SQL.doPoll = function() {
 					row = Devwik.SQL.execStatement(statement)[0];
 					if (row) {//Could have been deleted before we apply the insert/update
 						if(change.type == 'INSERT') {
-							table.added(table.name, row[table.dbKey], row);
+							_.each(table.handles, function (handle) {
+								handle.added(table.name, row[table.dbKey], row);
+							});
 						} else {
-							table.changed(table.name, row[table.dbKey], row);
+							_.each(table.handles, function (handle) {
+								handle.changed(table.name, row[table.dbKey], row);
+							});
 						}
 					}
 					break;
 				case 'DELETE': //TODO: Fix race condition with inserts
-					table.removed(table.name, change.rowId);
+					_.each(table.handles, function (handle) {
+						handle.removed(table.name, change.rowId);
+					});
 					break;
 				default:
 					break;
@@ -46,4 +52,4 @@ Devwik.SQL.doPoll = function() {
 			console.log(err);
 		}
 		Meteor.setTimeout(Devwik.SQL.doPoll, pollInterval);
-	};
+};

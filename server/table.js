@@ -54,9 +54,9 @@ Devwik.SQL.Column = function(props) {
 	self.sqlProps = props;
 	self.dbKey = false;
 	if (props.Extra === 'auto_increment') {
-	self.dbKey = props.Field;
+		self.dbKey = props.Field;
 } else if (props.Key === 'PRI') {
-self.dbKey = props.Field;
+	self.dbKey = props.Field;
 }
 self.name = props.Field;
 self.type = props.Type;
@@ -105,17 +105,25 @@ Devwik.SQL.Table.prototype.createTriggers = function() {
 	}
 	};
 
-/*
- * Publish the table to the client
- */
+	/*
+	 * Publish the table to the client
+	 */
 
 	Devwik.SQL.Table.prototype.setPublish = function() {
 		var table = this;
+		table.handles = [];
 		// TODO: Should be wrapped in future, but hangs at this point
 		//var fut = new Future();
 		// server: publish the table as a collection
 		Meteor.publish(table.name, function () {
 			var self = this;
+			if (_.indexOf(table.handles, self) === -1) {//Haven't seen this one yet
+				table.handles.push(self); //add it
+			}
+
+			self.onStop(function () {//TODO test more
+				table.handles = _.without(table.handles, self);
+			});
 			/*
 			 * Set up the callbacks
 			 */
@@ -128,6 +136,8 @@ Devwik.SQL.Table.prototype.createTriggers = function() {
 			table.removed = function(name, id) {
 				self.removed(name, id);
 			};
+
+ 
 			//fut.ret();
 			statement = "select * from " + table.name;
 			query = Devwik.SQL.connection.query(statement, function(err, result) {

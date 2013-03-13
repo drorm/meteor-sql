@@ -34,7 +34,6 @@ Devwik.SQL.Select.prototype.setCols = function(row) {
 			col.name = name;
 			col.type = Devwik.toType(value);
 			self.cols.push(col);
-			console.log(col);
 		});
 };
 
@@ -43,10 +42,8 @@ Devwik.SQL.Select.prototype.setCols = function(row) {
  */
 
 	Devwik.SQL.Select.prototype.setPublish = function() {
-		console.log('publish JOIN');
 		var select = this;
 		Meteor.publish(select.name, function () {
-		console.log('publish JOIN 1');
 			var self = this;
 			/*
 			 * Set up the callbacks
