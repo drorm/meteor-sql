@@ -161,6 +161,7 @@ Devwik.SQL.Table.prototype.createTriggers = function() {
 			var self = this;
 			_.each(Devwik.SQL.tables, function(table, name){
 				var tableProps = {};
+				tableProps.cols = table.cols;
 				tableProps.dbKey = table.dbKey;
 				tableProps.name = table.name;
 				tableProps.type = table.type;
