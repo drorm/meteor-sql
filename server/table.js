@@ -160,7 +160,13 @@ Devwik.SQL.Table.prototype.createTriggers = function() {
 		Meteor.publish(tableCollection, function () {
 			var self = this;
 			_.each(Devwik.SQL.tables, function(table, name){
-				self.added(tableCollection, name, table);
+				var tableProps = {};
+				tableProps.dbKey = table.dbKey;
+				tableProps.name = table.name;
+				tableProps.type = table.type;
+				tableProps.Null = table.Null;
+				tableProps.Default = table.Default;
+				self.added(tableCollection, name, tableProps);
 			});
 			self.ready();//indicate that the initial rows are ready
 		});

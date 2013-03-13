@@ -5,8 +5,7 @@
 var database ='meteor',
 	user ='meteor',
 	host ='localhost',
-	password = '5ad66d47886b73340';
-	//password = '43b27d6bf68d30';
+	password = '43b27d6bf68d30';
 var dbConfig = {
 		host     : host,
 		database : database,
