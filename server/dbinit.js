@@ -27,7 +27,6 @@ pool.getConnection(function(err, connection) {
 			Devwik.SQL.dbChanges();
 			// Poll the table with changes
 			Devwik.SQL.Poll();
-			Devwik.SQL.runTests();
 			Devwik.SQL.tables = {};
 			_.each(result, function(row){ //For each table in the db
 				if(!(row.Tables_in_meteor === dbChanges)) {
@@ -37,6 +36,7 @@ pool.getConnection(function(err, connection) {
 					console.log('loading:' + table.name);
 				}
 			});
+			Devwik.SQL.runTests();
 			//Meteor.publish the tables to the client
 			Devwik.SQL.publishTables();
 			var elapsed = new Date() - start;
@@ -62,10 +62,10 @@ Devwik.SQL.dbChanges = function() {
 	PRIMARY KEY (cid)\
 ) ENGINE=INNODB;";
 
-Devwik.SQL.execStatement(createStatement, false);
-Devwik.SQL.execStatement('drop index dbchangesIndex on ' + dbChanges, true);
+Devwik.SQL.execStatement(createStatement);
+Devwik.SQL.execStatement('drop index dbchangesIndex on ' + dbChanges);
 var createIndex = 'create index dbchangesIndex on ' + dbChanges + '(ts)';
-Devwik.SQL.execStatement(createIndex, true);
+Devwik.SQL.execStatement(createIndex);
 var statement = squel.remove().from(dbChanges);
 Devwik.SQL.execStatement(statement.toString());
 };
@@ -73,22 +73,14 @@ Devwik.SQL.execStatement(statement.toString());
 /*
  * Execute an SQL statement. This can be both DML (queries) or DDL (create/alter)
  * @param {String} statement : The statement to run
- * @param {Boolean} ignoreErr -- optional. By default, we throw an exception on error
- * This makes us ignore the error. 
  * @returns {Array} result. The rows, if any returned by the query
- * TODO: We actually should not throw an error as a rule.
- * TODO: escapge to avoid SQL injection
  */
 Devwik.SQL.execStatement = function(statement, ignoreErr) {
-	//statement = Devwik.SQL.connection.escape(statement);//TODO: is this good enough to avoid injections?
 	var future = new Future();
 	query = Devwik.SQL.connection.query(statement, function(err, result) {
-		//console.log(statement); //TODO: provide a way to show
 		if (err) {
 			if(ignoreErr) {
-				console.log('Ignoring:' + err.message); 
-			} else {
-				throw err;
+				console.log(err);
 			}
 		}
 		future.ret(result);

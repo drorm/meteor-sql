@@ -7,15 +7,16 @@ Devwik.SQL.Poll = function() {
 	Devwik.SQL.Poll.lastChangeId = 0;//Id of the most recent change
 	//Clear the log of changes since we're starting fresh, and reading all 
 	//the tables from scratch
-	Devwik.SQL.execStatement("delete from " + dbChanges); 
+	Devwik.SQL.execStatement(squel.remove().from(dbChanges).toString()); 
 	Devwik.SQL.doPoll();
 };
 
 //poll the db for changes
 Devwik.SQL.doPoll = function() {
 	var table, statement, row,
-	changes = Devwik.SQL.execStatement("select * from " + dbChanges + 
-			" where cid > '" + Devwik.SQL.Poll.lastChangeId + "'"); 
+	changesStatement = squel.select().from(dbChanges).where("cid > '" + Devwik.SQL.Poll.lastChangeId + "'").toString(); 
+	//TODO: Explore failure mode. Since we're polling a lot,  what happens when we fail?
+	var changes = Devwik.SQL.execStatement(changesStatement);
 		try {
 			_.each(changes, function(change) {
 				Devwik.SQL.Poll.lastChangeId = change.cid;//Id of the most recent change

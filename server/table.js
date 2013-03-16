@@ -79,8 +79,8 @@ Devwik.SQL.Table.prototype.createTriggers = function() {
 			"(tableName, rowId, type) VALUES('" + self.name +"'," + 
 			"new."+ self.dbKey +"," + " 'INSERT'); END;";
 
-		Devwik.SQL.execStatement(dropInsertTrigger, true);
-		Devwik.SQL.execStatement(insertTrigger, true);
+		Devwik.SQL.execStatement(dropInsertTrigger);
+		Devwik.SQL.execStatement(insertTrigger);
 
 		//Update Trigger
 		var updateTriggerName = self.name + 'Update' + triggerSuffix,
@@ -89,8 +89,8 @@ Devwik.SQL.Table.prototype.createTriggers = function() {
 			" FOR EACH ROW BEGIN INSERT INTO " + dbChanges + 
 			"(tableName, rowId, type) VALUES('" + self.name +"'," + 
 			"new."+ self.dbKey +"," + " 'UPDATE'); END;";
-		Devwik.SQL.execStatement(dropUpdateTrigger, true);
-		Devwik.SQL.execStatement(updateTrigger, true);
+		Devwik.SQL.execStatement(dropUpdateTrigger);
+		Devwik.SQL.execStatement(updateTrigger);
 
 		//Delete Trigger
 		var deleteTriggerName = self.name + 'Delete' + triggerSuffix,
@@ -99,8 +99,8 @@ Devwik.SQL.Table.prototype.createTriggers = function() {
 			" FOR EACH ROW BEGIN INSERT INTO " + dbChanges + 
 			"(tableName, rowId, type) VALUES('" + self.name +"'," + 
 			"old."+ self.dbKey +"," + " 'DELETE'); END;";
-		Devwik.SQL.execStatement(dropDeleteTrigger, true);
-		Devwik.SQL.execStatement(deleteTrigger, true);
+		Devwik.SQL.execStatement(dropDeleteTrigger);
+		Devwik.SQL.execStatement(deleteTrigger);
 
 	}
 	};

@@ -6,11 +6,14 @@ Meteor.methods({
 			try {
 				var statement = squel.insert().into(table);
 				_.each(args, function(value, key) {
+					console.log('before:' + value);
+					value = Devwik.SQL.escape(value);
+					console.log('after:' + value);
 					statement.set(key, value);
 				});
 
 				console.log(statement.toString());
-				var id = Devwik.SQL.execStatement(statement.toString(), true);
+				var id = Devwik.SQL.execStatement(statement.toString());
 			} catch (err) {
 				console.log("Caught error:" + err);
 				throw new Meteor.Error(err.message);
@@ -21,6 +24,7 @@ Meteor.methods({
 			try {
 				var statement = squel.update().table(table);
 				_.each(args, function(value, key) {
+					value = Devwik.SQL.escape(value);
 					statement.set(key, value);
 				});
 				statement.where(where);
@@ -34,6 +38,7 @@ Meteor.methods({
 		},
 		SQLremove: function (table, criteria) {
 			try {
+				criteria = Devwik.SQL.escape(criteria);
 				var statement = 'delete from ' + table + ' ' +  criteria;
 				console.log(statement);
 				var ret = Devwik.SQL.execStatement(statement);
