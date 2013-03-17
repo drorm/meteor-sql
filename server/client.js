@@ -6,9 +6,7 @@ Meteor.methods({
 			try {
 				var statement = squel.insert().into(table);
 				_.each(args, function(value, key) {
-					console.log('before:' + value);
 					value = Devwik.SQL.escape(value);
-					console.log('after:' + value);
 					statement.set(key, value);
 				});
 

@@ -7,14 +7,14 @@ Devwik.SQL.Poll = function() {
 	Devwik.SQL.Poll.lastChangeId = 0;//Id of the most recent change
 	//Clear the log of changes since we're starting fresh, and reading all 
 	//the tables from scratch
-	Devwik.SQL.execStatement(squel.remove().from(dbChanges).toString()); 
+	Devwik.SQL.execStatement(squel.remove().from(Devwik.SQL.Config.dbChanges).toString()); 
 	Devwik.SQL.doPoll();
 };
 
 //poll the db for changes
 Devwik.SQL.doPoll = function() {
 	var table, statement, row,
-	changesStatement = squel.select().from(dbChanges).where("cid > '" + Devwik.SQL.Poll.lastChangeId + "'").toString(); 
+	changesStatement = squel.select().from(Devwik.SQL.Config.dbChanges).where("cid > '" + Devwik.SQL.Poll.lastChangeId + "'").toString(); 
 	//TODO: Explore failure mode. Since we're polling a lot,  what happens when we fail?
 	var changes = Devwik.SQL.execStatement(changesStatement);
 		try {
@@ -31,6 +31,9 @@ Devwik.SQL.doPoll = function() {
 						if(change.type == 'INSERT') {
 							_.each(table.handles, function (handle) {
 								handle.added(table.name, row[table.dbKey], row);
+							});
+							_.each(table.views, function (view) {
+								Devwik.SQL.views[view].add(table.name, table.dbKey, row[table.dbKey]);
 							});
 						} else {
 							_.each(table.handles, function (handle) {
@@ -52,5 +55,5 @@ Devwik.SQL.doPoll = function() {
 			//console.log(table);
 			console.log(err);
 		}
-		Meteor.setTimeout(Devwik.SQL.doPoll, pollInterval);
+		Meteor.setTimeout(Devwik.SQL.doPoll, Devwik.SQL.Config.pollInterval);
 };
