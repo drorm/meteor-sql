@@ -4,6 +4,22 @@
  * * @param {String} name: the name of the view
  * * @param {Object} name: the table object for the view
  *
+ * We currently only support simple views in terms of reactivity: 
+ * Each table in the view needs to have a unique key
+ * There should be no aggregates in the view
+ * We don't support updatable views
+ *
+ * Strategy
+ * --------
+ *
+ * Views let each table in the view know that they're dependent on the table.
+ * When the table is changed: insert, update, delete, it calls the view and lets
+ * it know which row was affected. The view then handles the row(s). 
+ * Deleting rows is more complicated since once the row is deleted in the db, 
+ * we don't know which rows have been affected in the view. We therefor create a temp
+ * table on startup where we keep all the keys to the view. When there's a delete,
+ * we look in the temp table to see which rows were affected.
+ *
  * Views and table have a complicated relationship:
  * 1. A view is a kind of table. So it's both a table object and a View object.
  * The table object points to the view object: table.view and vice versa, the
