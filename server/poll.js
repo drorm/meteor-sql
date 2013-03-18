@@ -39,12 +39,18 @@ Devwik.SQL.doPoll = function() {
 							_.each(table.handles, function (handle) {
 								handle.changed(table.name, row[table.dbKey], row);
 							});
+							_.each(table.views, function (view) {
+								Devwik.SQL.views[view].change(table.name, table.dbKey, row[table.dbKey]);
+							});
 						}
 					}
 					break;
 				case 'DELETE': //TODO: Fix race condition with inserts
 					_.each(table.handles, function (handle) {
 						handle.removed(table.name, change.rowId);
+					});
+					_.each(table.views, function (view) {
+						Devwik.SQL.views[view].remove(table.name, table.dbKey, change.rowId);
 					});
 					break;
 				default:

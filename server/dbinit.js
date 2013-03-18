@@ -89,9 +89,7 @@ Devwik.SQL.execStatement = function(statement, ignoreErr) {
 	var future = new Future();
 	query = Devwik.SQL.connection.query(statement, function(err, result) {
 		if (err) {
-			if(ignoreErr) {
-				console.log(err);
-			}
+			console.log(err);
 		}
 		future.ret(result);
 	});

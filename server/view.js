@@ -57,6 +57,60 @@ Devwik.SQL.View.prototype.add = function(tableName, key, id) {
 };
 
 /*
+ * Change rows to a view. Doesn't change any data in the db. Just
+ * Queries the view to figure out which rows have been changed. 
+ */
+Devwik.SQL.View.prototype.change = function(tableName, key, id) {
+	var self = this;
+	var statement = squel.select().from(this.name).where(key  + " = '" + id + "'").toString();
+	var table = self.table;
+	rows = Devwik.SQL.execStatement(statement);
+	_.each(rows, function(row){ //For each row affected
+		_.each(table.handles, function (handle) {//Each client listening
+			var key = self.createKey(row);
+			handle.changed(table.name, key, row);
+		});
+	});
+};
+
+/*
+ * Delete rows in a view. Doesn't change any data in the db. Just
+ * Queries the view to figure out which rows have been deleted. 
+ */
+Devwik.SQL.View.prototype.remove = function(tableName, key, id) {
+	var self = this;
+	var table = self.table;
+	//Need to go to the table where we keep the keys and figure out what got deleted
+	var select = squel.select().from(self.tmpName).where(key  + " = '" + id + "'");
+	//For each of the affected rows
+	var rows = Devwik.SQL.execStatement(select.toString());
+	_.each(rows, function(row){ //For each row affected
+		_.each(table.handles, function (handle) {//Each client listening
+			var key = self.createKey(row);
+			handle.removed(table.name, key, row);
+			//TODO: remove from the temp table once we have transactions
+		});
+	});
+};
+
+/*
+ * Create a temp table with the rows in the view
+ */
+Devwik.SQL.View.prototype.saveKeys = function() {
+	var self = this;
+	self.tmpName = Devwik.SQL.Config.dbPrefix + 'tmp_' + self.name;
+	var drop = 'drop table if exists ' + self.tmpName;
+	Devwik.SQL.execStatement(drop);
+	var select = squel.select().from(self.name);
+	_.each(self.dbKeys, function(key){
+		select.field(key);
+	});
+	var create = 'create temporary table ' +  self.tmpName + ' as ' + select.toString();
+	console.log(create);
+	Devwik.SQL.execStatement(create);
+};
+
+/*
  * Create a composite key based on the individual keys in the table
  */
 Devwik.SQL.View.prototype.createKey = function(row) {
@@ -83,6 +137,7 @@ Devwik.SQL.View.prototype.createKey = function(row) {
 				var keyName = Devwik.SQL.tables[table].dbKey;
 				view.dbKeys.push(keyName);
 			});
+			view.saveKeys();
 			view.table.setPublish();
 			console.log(view.dbKeys);
 		});
