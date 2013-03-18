@@ -1,4 +1,5 @@
 #v0.2
+* Support for simple joins through views
 * Migrated to use squel() syntax where appropriate. Cleaner.
 * Use Devwik.SQL.escape() to sanitize data on user input
 

@@ -16,7 +16,7 @@ This is an initial implementation of Meteor SQL. It currently only supports MySQ
 # Limitations
 * Client side the collection still use mongo syntax for find()
 * All tables need to have a unique id 
-* Insert, Update and Delete operations on the client don't update the data locally. Instead they run on the server and then the server refreshes the client's data. This could result in slower refresh times, but guarantees that the client always sees data that has been commited to the db. It also means that unlike minmongo, the full range of SQL options are available to the client.
+* Insert, Update and Delete operations on the client don't update the data locally. Instead they run on the server and then the server refreshes the client's data. This could result in slower refresh times, but guarantees that the client always sees data that has been comited to the db. It also means that unlike minmongo, the full range of SQL options are available to the client.
 
 #Installation
 
