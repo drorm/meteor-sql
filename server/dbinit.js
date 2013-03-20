@@ -18,7 +18,7 @@ pool.getConnection(function(err, connection) {
 	var query;
 	if (err) throw err;
 	Devwik.SQL.connection = connection;//provide global access to the connection
-	
+
 	//Get the list of tables in the db
 	query = connection.query('show tables', function(err, result) {
 		if (err) throw err;
@@ -42,7 +42,7 @@ pool.getConnection(function(err, connection) {
 					console.log('loaded:' + table.name);
 				}
 			});
-			
+
 			//Tell tables which views depend on them
 			Devwik.SQL.View.tableDependencies();
 
@@ -83,12 +83,26 @@ Devwik.SQL.execStatement(statement.toString());
 /*
  * Execute an SQL statement. This can be both DML (queries) or DDL (create/alter)
  * @param {String} statement : The statement to run
- * @returns {Array} result. The rows, if any returned by the query
+ * @param {Boolean} throwException : If true, throw exception on error. Default:false
+ * @returns {Object} res: 
+ *          {array} res.rows:The rows, if any returned by the query
+ *          {array} res.err:The err, if any returned by the query
  */
-Devwik.SQL.execStatement = function(statement, ignoreErr) {
+Devwik.SQL.execStatement = function(statement, transaction) {
 	var future = new Future();
+	if(transaction) {
+		console.log('tranaction');
+		if(transaction.cancelled) {
+			console.log('tranaction cancelled');
+			//not doing anything in this transaction
+			return([]);
+		}
+	}
 	query = Devwik.SQL.connection.query(statement, function(err, result) {
 		if (err) {
+			if(transaction) {
+				transaction.cancelled = true;
+			}
 			console.log(err);
 		}
 		future.ret(result);
