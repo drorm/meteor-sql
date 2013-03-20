@@ -122,7 +122,6 @@ Devwik.SQL.View.prototype.saveKeys = function() {
 		select.field(key);
 	});
 	var create = 'create temporary table ' +  self.tmpName + ' as ' + select.toString();
-	console.log(create);
 	Devwik.SQL.execStatement(create);
 };
 
@@ -155,7 +154,6 @@ Devwik.SQL.View.prototype.createKey = function(row) {
 			});
 			view.saveKeys();
 			view.table.setPublish();
-			console.log(view.dbKeys);
 		});
 	};
 
