@@ -56,7 +56,6 @@ pool.getConnection(function(err, connection) {
 	});
 
 
-	connection.end();
 });
 
 //Create the table that tracks the changes
@@ -78,35 +77,5 @@ var createIndex = 'create index dbchangesIndex on ' + Devwik.SQL.Config.dbChange
 Devwik.SQL.execStatement(createIndex);
 var statement = squel.remove().from(Devwik.SQL.Config.dbChanges);
 Devwik.SQL.execStatement(statement.toString());
-};
-
-/*
- * Execute an SQL statement. This can be both DML (queries) or DDL (create/alter)
- * @param {String} statement : The statement to run
- * @param {Boolean} throwException : If true, throw exception on error. Default:false
- * @returns {Object} res: 
- *          {array} res.rows:The rows, if any returned by the query
- *          {array} res.err:The err, if any returned by the query
- */
-Devwik.SQL.execStatement = function(statement, transaction) {
-	var future = new Future();
-	if(transaction) {
-		console.log('tranaction');
-		if(transaction.cancelled) {
-			console.log('tranaction cancelled');
-			//not doing anything in this transaction
-			return([]);
-		}
-	}
-	query = Devwik.SQL.connection.query(statement, function(err, result) {
-		if (err) {
-			if(transaction) {
-				transaction.cancelled = true;
-			}
-			console.log(err);
-		}
-		future.ret(result);
-	});
-	return(future.wait());
 };
 
