@@ -2,9 +2,15 @@
  * Handle calls from the client
  */
 Meteor.methods({
-		SQLinsert: function (table, args) {
+		SQLinsert: function (tableName, args) {
+			var table = Devwik.SQL.tables[tableName];
+			if(table.view) {
+				var message = "Inserting into views is not supported:" + table.view.name;
+				console.log(message);
+				throw new Meteor.Error(message);
+			}
 			try {
-				var statement = squel.insert().into(table);
+				var statement = squel.insert().into(tableName);
 				_.each(args, function(value, key) {
 					value = Devwik.SQL.escape(value);
 					statement.set(key, value);
@@ -18,9 +24,15 @@ Meteor.methods({
 			}
 			return(id.insertId);
 		},
-		SQLupdate: function (table, args, where) {
+		SQLupdate: function (tableName, args, where) {
+			var table = Devwik.SQL.tables[tableName];
+			if(table.view) {
+				var message = "Updating views is not supported::" + table.view.name;
+				console.log(message);
+				throw new Meteor.Error(message);
+			}
 			try {
-				var statement = squel.update().table(table);
+				var statement = squel.update().table(tableName);
 				_.each(args, function(value, key) {
 					value = Devwik.SQL.escape(value);
 					statement.set(key, value);
@@ -34,10 +46,16 @@ Meteor.methods({
 			}
 			return(ret);
 		},
-		SQLremove: function (table, criteria) {
+		SQLremove: function (tableName, criteria) {
+			var table = Devwik.SQL.tables[tableName];
+			if(table.view) {
+				var message = "Deleting from views is not supported::" + table.view.name;
+				console.log(message);
+				throw new Meteor.Error(message);
+			}
 			try {
 				criteria = Devwik.SQL.escape(criteria);
-				var statement = 'delete from ' + table + ' ' +  criteria;
+				var statement = 'delete from ' + tableName + ' ' +  criteria;
 				console.log(statement);
 				var ret = Devwik.SQL.execStatement(statement);
 			} catch (err) {
