@@ -1,8 +1,8 @@
 #v0.2
-* Support for simple joins through views
+* Support for reactive joins through views. Any changes in the underlying tables automatically shows up in the view.
 * Migrated to use squel() syntax where appropriate. Cleaner.
-* Use Devwik.SQL.escape() to sanitize data on user input
-* API documentation
+* Use Devwik.SQL.escape() to sanitize data on user input.
+* Added API documentation.
 
 #v0.1
 * Full server side support of select, insert, update and delete on a table
