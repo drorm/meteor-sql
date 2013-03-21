@@ -1,0 +1,66 @@
+<template name="devwikView">
+		<div class='row'>
+
+
+
+Currently you can only use <strong> simple views </strong> that include the keys from the original tables but they are <a href='http://docs.meteor.com/#reactivity'>reactive.</a></strong> Any chages to the underlying tables is automatically propagated to the view.
+
+			<pre> create view bar as select firstName, lastName, email, jobTitle, employees.officeCode, city, addressLine1, state, country from offices, employees where employees.officeCode = offices.officeCode limit 3; </pre>
+works fine. It gives us employee and office info for each employee and includes keys in each table.
+Once you create a view in the DB, subject to the above limitations, you use it the same as you would a table. The driver creates the objects server side, and you create a <strong> Table object </strong>  in the client using the view name. 
+			<pre> var empCity = new Meteor.Table('empCity'); </pre>
+<strong> Updatable views are not supported.</strong>  You can't insert, update or delete from a view.
+			<p>
+		</div>
+		<div class='row'>
+			<h4>
+				<div class='span1'>
+					City
+				</div>
+				<div class='span1'>
+					Id
+				</div>
+				<div class='span2'>
+					First
+				</div>
+				<div class='span2'>
+					Last
+				</div>
+				<div class='span2'>
+					Title 
+				</div>
+				<div class='span2'>
+					Email
+				</div>
+			</h4>
+		</div>
+		{{#each viewRows}}
+		{{> viewRow}}
+		{{/each}}
+	</template>
+
+
+	<template name="viewRow">
+		<div id={{employeeNumber}} class='row'>
+			<div class='span1'>
+				{{city}}
+			</div>
+			<div class='span1'>
+				{{employeeNumber}}
+			</div>
+			<div class='span2'>
+				{{firstName}}
+			</div>
+			<div class='span2'>
+				{{lastName}}
+			</div>
+			<div class='span2'>
+				{{jobTitle}}
+			</div>
+			<div class='span2'>
+				{{email}}
+			</div>
+		</div>
+	</template>
+
+
