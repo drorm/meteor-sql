@@ -7,8 +7,8 @@ Run Devwik.SQL.execStatement. You iterate over the array it returns.
 ```
 var rows = Devwik.SQL.execStatement('select * from employees');
 _.each(rows, function(row){ //For each table in the db
-		//now use row.firstName, row.lastName ...
-		});
+	//now use row.firstName, row.lastName ...
+});
 ```
 
 ## Other statements
@@ -82,10 +82,11 @@ Employee.remove(id, function(err, value) {
 #Views
 
 ##Limitations
-		Currently you can only use simple views that include the keys from the original tables.
+Currently you can only use simple views that include the keys from the original tables.
 		So 
 ```
-create view bar as select firstName, lastName, email, jobTitle, employees.officeCode, city, addressLine1, state, country from offices, employees where employees.officeCode = offices.officeCode limit 3;
+create view bar as select firstName, lastName, email, jobTitle, employees.officeCode, city, addressLine1, state, country from offices, employees 
+where employees.officeCode = offices.officeCode limit 3;
 ```
 works fine. It gives us employee and office info for each employee and includes keys in each table.
 On the other hand the following view:
@@ -125,9 +126,9 @@ You need to use an engine that supports transaction such as *innodb*, otherwise 
 
 ### Automatic COMMIT OR ROLLBACK
 The following code demonstrates how to put multiple statements in a transaction.
-1. You create a transaction object using new Devwik.SQL.Transaction.
-2. You pass the transaction object to each execStatement you call.
-3. You call end() on the object when you're done with the transaction.
+ 1. You create a transaction object using new Devwik.SQL.Transaction.
+ 2. You pass the transaction object to each execStatement you call.
+ 3. You call end() on the object when you're done with the transaction.
 ```
 var transaction = new Devwik.SQL.Transaction();
 if(transaction) {
