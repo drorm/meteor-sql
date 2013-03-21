@@ -7,6 +7,7 @@ This is an initial implementation of Meteor SQL. It currently only supports MySQ
 * Full server side support of select, insert, update and delete on a table
 * All changes get propagated to all subscribed clients as with MongoDb
 * Changes to the db from other apps are detected immediately (100ms, configurable), and propagated to the client
+* Support for reactive joins through views. Any changes in the underlying tables automatically shows up in the view.
 * Light weight implementation
  * Changes are handled by triggers, no diffs to existing queries needed
  * Polling is done on a single indexed table, very little overhead.
