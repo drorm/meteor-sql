@@ -35,8 +35,42 @@ Use the standard Meteor client side Mongo API, http://docs.meteor.com/#find, to 
 ##Insert,update, delete
 TODO
 
-##Views
+#Views
 
+##Limitations
+Currently you can only use simple view that include the keys from the original tables.
+So 
+```
+create view bar as select firstName, lastName, email, jobTitle, employees.officeCode, city, addressLine1, state, country from offices, employees where employees.officeCode = offices.officeCode limit 3;
+```
+works fine. It gives us employee and office info for each employee and includes keys in each table.
+On the other hand the following view:
+```
+create view empOffice as select count(*) empNumber,  offices.* from employees, offices where offices.officeCode = employees.officecode group by officeCode;
+```
+Aggregates the number of employees in the first column. When a new employee record is inserted, there's no obvious way to tell which rows in this view changed. At this point, this kind of view is not supported.
+*Updatable views are not supported.* You can't insert, update or delete from a view.
+
+##Usage
+Once you create a view in the DB subject to the above limitations, you use it the same as you would a table. The driver creates the objects server side, and you create a Table object using the view name. 
+
+
+#Selects
+
+Unlike views, there are not limitations to what's included in a select statement. Selects, however *are not reactive*. This means that changes to rows shown in a resultset from a select will not change until the user reloads the page.
+
+## Server
+You create selects on the server using the following syntax. The first argument is the name of the select, and the second is the statement. 
+```
+Devwik.SQL.Select('empsCities', 'select employees.*, offices.city from employees, offices where offices.officeCode = employees.officecode');
+```
+
+##Client
+Just define which select you're using
+```
+var Select = new Meteor.Select('empsCities');
+Select.find({}, {sort: {employeeNumber: -1}});
+```
 
 #Transactions
 
