@@ -55,24 +55,41 @@ Use the standard Meteor client side Mongo API, http://docs.meteor.com/#find, to 
 Insert takes two arguments: an object with the data to insert and a callback function that gets passed and err and value params. Value contains the row id of the inserted row if any.
 ```
 Employee.insert(insert, function(err, value) {
-...
-});
+		...
+		});
 ```
-###Update, delete
+##Update
+Insert takes three arguments: an object with the data to insert, the id of the row to update, and a callback function that gets passed and err and value params. 
+```
+update = {};
+update.firstName  = $('#updateFirst').val();
+update.lastName = $('#updateLast').val();
+update.email = $('#updateEmail').val();
+update.jobTitle  = $('#updateTitle').val();
+Employee.update(update, id, function(err, value) {
+	...
+}
+```
 
-
+## delete
+Delete takes two arguments: id of the row to update, and a callback function that gets passed and err and value params. 
+```
+Employee.remove(id, function(err, value) {
+	...
+}
+```
 
 #Views
 
 ##Limitations
-Currently you can only use simple views that include the keys from the original tables.
-So 
-```
-create view bar as select firstName, lastName, email, jobTitle, employees.officeCode, city, addressLine1, state, country from offices, employees where employees.officeCode = offices.officeCode limit 3;
-```
-works fine. It gives us employee and office info for each employee and includes keys in each table.
-On the other hand the following view:
-```
+		Currently you can only use simple views that include the keys from the original tables.
+		So 
+		```
+		create view bar as select firstName, lastName, email, jobTitle, employees.officeCode, city, addressLine1, state, country from offices, employees where employees.officeCode = offices.officeCode limit 3;
+		```
+		works fine. It gives us employee and office info for each employee and includes keys in each table.
+		On the other hand the following view:
+		```
 create view empOffice as select count(*) empNumber,  offices.* from employees, offices where offices.officeCode = employees.officecode group by officeCode;
 ```
 Aggregates the number of employees in the first column. When a new employee record is inserted, there's no obvious way to tell which rows in this view changed. At this point, this kind of view is not supported.
@@ -108,9 +125,9 @@ You need to use an engine that supports transaction such as *innodb*, otherwise 
 
 ### Automatic COMMIT OR ROLLBACK
 The following code demonstrates how to put multiple statements in a transaction.
- 1. You create a transaction object using new Devwik.SQL.Transaction.
- 2. You pass the transaction object to each execStatement you call.
- 3. You call end() on the object when you're done with the transaction.
+1. You create a transaction object using new Devwik.SQL.Transaction.
+2. You pass the transaction object to each execStatement you call.
+3. You call end() on the object when you're done with the transaction.
 ```
 var transaction = new Devwik.SQL.Transaction();
 if(transaction) {
