@@ -1,6 +1,7 @@
-#Server side 
+##Full server side DB access
 
-Select, inserts, updates, create table, etc, you can do it all on the server.
+You have full access to all SQL statements on the server: Select, inserts, updates, create table, etc.
+
 ## Selects
 Run Devwik.SQL.execStatement. You iterate over the array it returns.
 ```
@@ -17,10 +18,10 @@ Same as selects except no data is returned.
 Devwik.SQL.execStatement('update employees set officeCode = 7 where officeCode = 6');
 ```
 
-## Using http://hiddentao.github.com/squel
-Squel is supported making construction of query strings less error prone than having to  concatenate them.
+## Using squel
+Squel, http://hiddentao.github.com/squel, is supported making construction of query strings less error prone than having to  concatenate them.
 ```
-squel.select().from(self.tmpName).where(key  + " = '" + id + "'");
+squel.select().from('employees').where(key  + " = '" + id + "'");
 ```
 
 ## Escaping user input
@@ -39,7 +40,6 @@ _.each(args, function(value, key) {
 ##Tables
 *Tables need to have a unique id* so that the driver can identify rows that are sent to the client. Tables without a unique id are ignored.
 
-##Full server side DB access
 On startup the driver automatically finds out the tables you have in the db and creates a Table object for each one, and publishes them to the client. 
 
 ##Client Side
@@ -47,16 +47,25 @@ Subscribe to a table's data by declaring it client side.
 ```
 var Employee = new Meteor.Table('employees');
 ```
-##Viewing data: find()
+###Viewing data: find()
 Use the standard Meteor client side Mongo API, http://docs.meteor.com/#find, to fetch data or use it in templates.
 
-##Insert,update, delete
-TODO
+##Insert
+
+Insert takes two arguments: an object with the data to insert and a callback function that gets passed and err and value params. Value contains the row id of the inserted row if any.
+```
+Employee.insert(insert, function(err, value) {
+...
+});
+```
+###Update, delete
+
+
 
 #Views
 
 ##Limitations
-Currently you can only use simple view that include the keys from the original tables.
+Currently you can only use simple views that include the keys from the original tables.
 So 
 ```
 create view bar as select firstName, lastName, email, jobTitle, employees.officeCode, city, addressLine1, state, country from offices, employees where employees.officeCode = offices.officeCode limit 3;
@@ -70,7 +79,7 @@ Aggregates the number of employees in the first column. When a new employee reco
 *Updatable views are not supported.* You can't insert, update or delete from a view.
 
 ##Usage
-Once you create a view in the DB subject to the above limitations, you use it the same as you would a table. The driver creates the objects server side, and you create a Table object using the view name. 
+Once you create a view in the DB, subject to the above limitations, you use it the same as you would a table. The driver creates the objects server side, and you create a Table object using the view name. 
 
 
 #Selects
@@ -93,15 +102,15 @@ Select.find({}, {sort: {employeeNumber: -1}});
 #Transactions
 
 ## Engine
-You need to use an engine that supports transaction such as innodb, otherwise all transaction related statements are ignored.
+You need to use an engine that supports transaction such as *innodb*, otherwise all transaction related statements are ignored.
 
 ## Usage
 
 ### Automatic COMMIT OR ROLLBACK
 The following code demonstrates how to put multiple statements in a transaction.
-1. You create a transaction object using new Devwik.SQL.Transaction.
-2. You pass the transaction object to each execStatement you call.
-3. You call end() on the object when you're done with the transaction.
+ 1. You create a transaction object using new Devwik.SQL.Transaction.
+ 2. You pass the transaction object to each execStatement you call.
+ 3. You call end() on the object when you're done with the transaction.
 ```
 var transaction = new Devwik.SQL.Transaction();
 if(transaction) {
@@ -128,4 +137,4 @@ if(transaction) {
 }
 ```
 
-*Do not use Exception handling to catch SQL errors.* 
+*Do not use Exception handling to catch SQL errors.* node.js exceptions don't work correctly.
