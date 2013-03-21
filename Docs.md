@@ -1,27 +1,45 @@
-#Tables
-The driver needs  *tables to have a unique id* so that it can identify rows that are sent to the client. Tables without a unique id are ignored.
-
-##Full server side DB access
+#Server side 
 
 Select, inserts, updates, create table, etc, you can do it all on the server.
-### Selects
+## Selects
 Run Devwik.SQL.execStatement. You iterate over the array it returns.
 ```
-	var rows = Devwik.SQL.execStatement('select * from employees');
-	_.each(rows, function(row){ //For each table in the db
+var rows = Devwik.SQL.execStatement('select * from employees');
+_.each(rows, function(row){ //For each table in the db
 		//now use row.firstName, row.lastName ...
-	});
+		});
 ```
 
-### Other statements
+## Other statements
 
 Same as selects except no data is returned.
 ```
 Devwik.SQL.execStatement('update employees set officeCode = 7 where officeCode = 6');
 ```
 
+## Using http://hiddentao.github.com/squel
+Squel is supported making construction of query strings less error prone than having to  concatenate them.
+```
+squel.select().from(self.tmpName).where(key  + " = '" + id + "'");
+```
+
+## Escaping user input
+
+Use Devwik.SQL.escape() to escape user input to protect from SQL injections.
+The following code demonstrates combining the use of squel and escaping.
+```
+var statement = squel.insert().into(tableName);
+_.each(args, function(value, key) {
+		value = Devwik.SQL.escape(value);
+		statement.set(key, value);
+		});
+```
+
+
 ##Tables
-##Server Side
+*Tables need to have a unique id* so that the driver can identify rows that are sent to the client. Tables without a unique id are ignored.
+
+##Full server side DB access
 On startup the driver automatically finds out the tables you have in the db and creates a Table object for each one, and publishes them to the client. 
 
 ##Client Side
@@ -102,11 +120,11 @@ You can create and manage transactions manually
 var transaction = new Devwik.SQL.Transaction();//Create the transaction
 if(transaction) {
 	...
-	if(/* good stuff */) {
-		transaction.commit();
-	} else {
-		transaction.rollback();
-	}
+		if(/* good stuff */) {
+			transaction.commit();
+		} else {
+			transaction.rollback();
+		}
 }
 ```
 
