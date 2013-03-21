@@ -30,8 +30,7 @@ Template.devwikEmployees.rendered = function () {
 			update.lastName = $('#updateLast').val();
 			update.email = $('#updateEmail').val();
 			update.jobTitle  = $('#updateTitle').val();
-			var criteria = 'employeeNumber =' + id;
-			Employee.update(update, criteria, function(err, value) {
+			Employee.update(update, id, function(err, value) {
 				if (err) {
 					alert(_.values(err));
 				} else {
@@ -68,7 +67,7 @@ Template.devwikEmployees.rendered = function () {
 
 	function deleteEmployee(number) {
 		console.log('remove:' + number);
-		Employee.remove('where employeeNumber =' + number, function(err, value) {
+		Employee.remove(number, function(err, value) {
 			if (err) {
 				alert(_.values(err));
 			}

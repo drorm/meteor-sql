@@ -24,7 +24,7 @@ Meteor.methods({
 			}
 			return(id.insertId);
 		},
-		SQLupdate: function (tableName, args, where) {
+		SQLupdate: function (tableName, args, id) {
 			var table = Devwik.SQL.tables[tableName];
 			if(table.view) {
 				var message = "Updating views is not supported::" + table.view.name;
@@ -37,7 +37,7 @@ Meteor.methods({
 					value = Devwik.SQL.escape(value);
 					statement.set(key, value);
 				});
-				statement.where(where);
+				statement.where(table.dbKey + ' = ' + id).toString(); 
 				console.log(statement.toString());
 				var ret = Devwik.SQL.execStatement(statement.toString());
 			} catch (err) {
@@ -46,7 +46,7 @@ Meteor.methods({
 			}
 			return(ret);
 		},
-		SQLremove: function (tableName, criteria) {
+		SQLremove: function (tableName, id) {
 			var table = Devwik.SQL.tables[tableName];
 			if(table.view) {
 				var message = "Deleting from views is not supported::" + table.view.name;
@@ -54,8 +54,8 @@ Meteor.methods({
 				throw new Meteor.Error(message);
 			}
 			try {
-				criteria = Devwik.SQL.escape(criteria);
-				var statement = 'delete from ' + tableName + ' ' +  criteria;
+				id = Devwik.SQL.escape(id);
+				var statement = squel.remove().from(tableName).where(table.dbKey + ' = ' + id).toString(); 
 				console.log(statement);
 				var ret = Devwik.SQL.execStatement(statement);
 			} catch (err) {
