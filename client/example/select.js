@@ -1,7 +1,9 @@
-var empCity = new Meteor.Table('empCity');
+var empCities = new Meteor.Select('empsPerCity');
+console.log(empCities);
 
 
 	Template.devwikSelects.selects = function () {
-		return empCity.find({}, {sort: {employeeNumber: -1}});
+		console.log('selects');
+		return empCities.find({}, {sort: {employeeNumber: -1}});
 	};
 

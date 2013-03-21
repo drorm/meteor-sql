@@ -1,7 +1,7 @@
 <template name="devwikSelects">
 		<div class='row'>
 
-			<strong> Selects are currently not <a href='http://docs.meteor.com/#reactivity'>reactive.</a></strong><br/>
+			<strong> Selects are currently not <a href='http://docs.meteor.com/#reactivity'>reactive.</a></strong> but you can use any select statment including aggregates, sub-selects, etc.<br/>
 			On the server:
 			<pre> new Devwik.SQL.Select('empsCities', 'select employees.*, offices.city from employees, offices where offices.officeCode = employees.officecode');
 		</pre>
@@ -15,23 +15,17 @@ On the client:
 		</div>
 		<div class='row'>
 			<h4>
-				<div class='span1'>
+				<div class='span2'>
+					Number of Employees
+				</div>
+				<div class='span2'>
 					City
 				</div>
-				<div class='span1'>
-					Id
+				<div class='span2'>
+					State
 				</div>
 				<div class='span2'>
-					First
-				</div>
-				<div class='span2'>
-					Last
-				</div>
-				<div class='span2'>
-					Title 
-				</div>
-				<div class='span2'>
-					Email
+					Country
 				</div>
 			</h4>
 		</div>
@@ -42,24 +36,18 @@ On the client:
 
 
 	<template name="select">
-		<div id={{employeeNumber}} class='row'>
-			<div class='span1'>
+		<div class='row'>
+			<div class='span2'>
+				{{empNumber}}
+			</div>
+			<div class='span2'>
 				{{city}}
 			</div>
-			<div class='span1'>
-				{{employeeNumber}}
+			<div class='span2'>
+				{{state}}
 			</div>
 			<div class='span2'>
-				{{firstName}}
-			</div>
-			<div class='span2'>
-				{{lastName}}
-			</div>
-			<div class='span2'>
-				{{jobTitle}}
-			</div>
-			<div class='span2'>
-				{{email}}
+				{{country}}
 			</div>
 		</div>
 	</template>
