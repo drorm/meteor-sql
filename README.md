@@ -40,5 +40,5 @@ This is an initial implementation of Meteor SQL. It currently only supports MySQ
 # Future
 * Make select statement reactive
 * Support prepared statements
-* Support views
-* Handle transactions. It's possible right now, but make it cleaner.
+* Support any kind of views
+* Provide a way to automatically generate forms
