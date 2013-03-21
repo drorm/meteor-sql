@@ -84,12 +84,12 @@ Employee.remove(id, function(err, value) {
 ##Limitations
 		Currently you can only use simple views that include the keys from the original tables.
 		So 
-		```
-		create view bar as select firstName, lastName, email, jobTitle, employees.officeCode, city, addressLine1, state, country from offices, employees where employees.officeCode = offices.officeCode limit 3;
-		```
-		works fine. It gives us employee and office info for each employee and includes keys in each table.
-		On the other hand the following view:
-		```
+```
+create view bar as select firstName, lastName, email, jobTitle, employees.officeCode, city, addressLine1, state, country from offices, employees where employees.officeCode = offices.officeCode limit 3;
+```
+works fine. It gives us employee and office info for each employee and includes keys in each table.
+On the other hand the following view:
+```
 create view empOffice as select count(*) empNumber,  offices.* from employees, offices where offices.officeCode = employees.officecode group by officeCode;
 ```
 Aggregates the number of employees in the first column. When a new employee record is inserted, there's no obvious way to tell which rows in this view changed. At this point, this kind of view is not supported.
@@ -131,10 +131,10 @@ The following code demonstrates how to put multiple statements in a transaction.
 ```
 var transaction = new Devwik.SQL.Transaction();
 if(transaction) {
-	//employeeNumber is a unique key at least one of these should fail
-	Devwik.SQL.execStatement("INSERT INTO employees (employeeNumber,firstName, lastName, email, jobTitle) VALUES (1759, 'aaaa', 'bbb', 'ddd', 'ccc')", transaction);
-	Devwik.SQL.execStatement("INSERT INTO employees (employeeNumber,firstName, lastName, email, jobTitle) VALUES (1759, 'aaaa', 'bbb', 'ddd', 'ccc')", transaction);
-	transaction.end();
+//employeeNumber is a unique key at least one of these should fail
+Devwik.SQL.execStatement("INSERT INTO employees (employeeNumber,firstName, lastName, email, jobTitle) VALUES (1759, 'aaaa', 'bbb', 'ddd', 'ccc')", transaction);
+Devwik.SQL.execStatement("INSERT INTO employees (employeeNumber,firstName, lastName, email, jobTitle) VALUES (1759, 'aaaa', 'bbb', 'ddd', 'ccc')", transaction);
+transaction.end();
 }
 ```
 If any of the statements fail, the rest the transaction is rolled back. Otherwise, the transaction is committed.
@@ -145,12 +145,12 @@ You can create and manage transactions manually
 ```
 var transaction = new Devwik.SQL.Transaction();//Create the transaction
 if(transaction) {
-	...
-		if(/* good stuff */) {
-			transaction.commit();
-		} else {
-			transaction.rollback();
-		}
+...
+if(/* good stuff */) {
+	transaction.commit();
+} else {
+	transaction.rollback();
+}
 }
 ```
 
