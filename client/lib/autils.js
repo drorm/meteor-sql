@@ -2,7 +2,15 @@
 /**
  * Devwik.Utils: Various utility functions
  */
-var Devwik = function() {};
+if (typeof Devwik == 'undefined') {
+	/**
+	 * @ignore 
+	 */
+	Devwik = function() {};
+}
+"use strict";
+
+
 Devwik.Utils = function() {};
 
 /**
