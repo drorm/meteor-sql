@@ -36,7 +36,7 @@ Devwik.SQL.execStatement = function(statement, transaction) {
  * Escape an SQL statement to try and catch SQL injections
  */
 Devwik.SQL.escape = function(statement) {
-	statement = statement.toString();//For consistency let's convert to string
+	statement = statement.toString();
 	statement = Devwik.SQL.connection.escape(statement).toString();
 	statement = statement.substring(1, statement.length-1);
 	return(statement);
