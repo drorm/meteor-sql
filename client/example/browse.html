@@ -1,0 +1,16 @@
+<template name="devwikProducts">
+			{{#each devwikTables}}
+			{{> devwikTab}}
+			{{/each}}
+
+			<h1 id='devwikTableName'>
+			</h1>
+	<div id='devwikTableUi'>
+	</div>
+
+</template>
+
+<template name="devwikTab">
+	<button type="button" id='showTable-{{name}}' class="devwikShowTable btn btn-primary">{{name}}</button>
+</template>
+
