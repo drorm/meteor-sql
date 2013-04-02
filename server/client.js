@@ -7,6 +7,7 @@ Meteor.methods({
 			if(table.view) {
 				var message = "Inserting into views is not supported:" + table.view.name;
 				console.log(message);
+				console.log(err.stack);
 				throw new Meteor.Error(message);
 			}
 			try {
@@ -20,6 +21,7 @@ Meteor.methods({
 				var id = Devwik.SQL.execStatement(statement.toString());
 			} catch (err) {
 				console.log("Caught error:" + err);
+				console.log(err.stack);
 				throw new Meteor.Error(err.message);
 			}
 			return(id.insertId);
@@ -29,6 +31,7 @@ Meteor.methods({
 			if(table.view) {
 				var message = "Updating views is not supported::" + table.view.name;
 				console.log(message);
+				console.log(err.stack);
 				throw new Meteor.Error(message);
 			}
 			try {
@@ -42,6 +45,7 @@ Meteor.methods({
 				var ret = Devwik.SQL.execStatement(statement.toString());
 			} catch (err) {
 				console.log("Caught error:" + err);
+				console.log(err.stack);
 				throw new Meteor.Error(err.message);
 			}
 			return(ret);
@@ -60,6 +64,7 @@ Meteor.methods({
 				var ret = Devwik.SQL.execStatement(statement);
 			} catch (err) {
 				console.log("Caught error:" + err);
+				console.log(err.stack);
 				throw new Meteor.Error(err.message);
 			}
 			return(ret);
