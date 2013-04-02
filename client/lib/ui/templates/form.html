@@ -1,0 +1,30 @@
+<template name="formTemplate">
+	<div class="row">
+		<form class="well {{args.style}}"> 
+			<fieldset>
+				<div class='formFields' id="{{args.inputId}}">
+					{{#each formFields}}
+					{{> formField}}
+					{{/each}}
+				</div>
+				<div class="control-group">
+					<div class="controls center">
+						<button id ="{{args.insertId}}"class="btn btn-large btn">{{args.insertUpdate}}</button>
+						<button class="btn btn-large btn-primary btn-warning" data-dismiss="modal" aria-hidden="true">Cancel</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+
+	</template>
+
+	<template name="formField">
+		<div class='formField'>
+			<div class="control-group">
+				<label class="control-label" for="{{name}}">{{name}}</label>
+				<div class="controls">
+					<input id="{{element}}Devwik{{name}}" type="{{htmlType}}" name="{{name}}" class="input" placeholder="e.g. {{value}}">
+				</div>
+			</div>
+		</div>
+	</template>
