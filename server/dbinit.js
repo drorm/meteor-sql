@@ -1,10 +1,6 @@
 /*
  * Meteor SQL Driver main file. Initializes the driver and sets up all the tables.
  */
-var require = __meteor_bootstrap__.require,
-Future = require('fibers/future'),
-//Using the node.js MYSQL driver from https://github.com/felixge/node-mysql
-mysql = require('mysql');
 
 start = new Date();
 console.log('\n----------' + new Date() + ' SQL Driver Starting --------');
