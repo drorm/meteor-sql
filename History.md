@@ -1,3 +1,6 @@
+#v0.21
+* Make it work with Meteor 0.6+ new package system.
+
 #v0.2
 * Support for reactive joins through views. Any changes in the underlying tables automatically shows up in the view.
 * Migrated to use squel() syntax where appropriate. Cleaner.
