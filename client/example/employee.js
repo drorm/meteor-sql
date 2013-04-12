@@ -1,7 +1,7 @@
 var notDone = true;
 var Employee = new Meteor.Table('employees');
 Meteor.subscribe('meteor_tables');
-var Tables = new Meteor.Collection('meteor_tables');
+Tables = new Meteor.Collection('meteor_tables');
 
 Template.devwikEmployees.rendered = function () {
 	if (notDone) {//do it once
