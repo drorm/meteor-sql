@@ -19,6 +19,8 @@ pool.getConnection(function(err, connection) {
 	query = connection.query('show tables', function(err, result) {
 		if (err) throw err;
 		Fiber(function() {
+                       // construct the property name we need to fetch the table name
+                       var databaseProperty = "Tables_in_" + Devwik.SQL.Config.database;
 
 			//Get the list of views in the db
 			Devwik.SQL.View.getViews();
@@ -31,9 +33,9 @@ pool.getConnection(function(err, connection) {
 			Devwik.SQL.tables = {};
 			Devwik.SQL.views = {};
 			_.each(result, function(row){ //For each table in the db
-				if(!(row.Tables_in_meteor === Devwik.SQL.Config.dbChanges)) {
+				if(!(row[databaseProperty] === Devwik.SQL.Config.dbChanges)) {
 					//Get the info about the table and its columns
-					var table = new Devwik.SQL.Table(row.Tables_in_meteor); 
+					var table = new Devwik.SQL.Table(row[databaseProperty] ); 
 					Devwik.SQL.tables[table.name] = table;
 					console.log('loaded:' + table.name);
 				}
