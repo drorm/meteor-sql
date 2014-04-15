@@ -3,7 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-    api.add_files('common/lib/vendor/sqel.js', ['client', 'server']);
+    api.add_files('common/lib/vendor/squel.js', ['client', 'server']);
     api.add_files('common/lib/devwik.js', ['client', 'server']);
 
     api.add_files('client/lib/sql/select.js', 'client');
