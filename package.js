@@ -21,3 +21,5 @@ Package.on_use(function (api) {
     api.add_files('server/tests.js', 'server');
     api.add_files('server/view.js', 'server');
 });
+
+Npm.depends({ 'mysql': '2.1.0' });
