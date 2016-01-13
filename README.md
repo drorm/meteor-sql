@@ -1,6 +1,8 @@
 Meteor SQL
 ==========
 
+#Not compatible with the latest versions of Meteor
+
 This is an initial implementation of Meteor SQL. It currently only supports MySQL.
 
 # Features
