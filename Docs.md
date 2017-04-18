@@ -1,4 +1,4 @@
-##Full server side DB access
+## Full server side DB access
 
 You have full access to all SQL statements on the server: Select, inserts, updates, create table, etc.
 
@@ -37,20 +37,20 @@ _.each(args, function(value, key) {
 ```
 
 
-##Tables
+## Tables
 *Tables need to have a unique id* so that the driver can identify rows that are sent to the client. Tables without a unique id are ignored.
 
 On startup the driver automatically finds out the tables you have in the db and creates a Table object for each one, and publishes them to the client. 
 
-##Client Side
+## Client Side
 Subscribe to a table's data by declaring it client side. 
 ```
 var Employee = new Meteor.Table('employees');
 ```
-###Viewing data: find()
+### Viewing data: find()
 Use the standard Meteor client side Mongo API, http://docs.meteor.com/#find, to fetch data or use it in templates.
 
-##Insert
+## Insert
 
 Insert takes two arguments: an object with the data to insert and a callback function that gets passed and err and value params. Value contains the row id of the inserted row if any.
 ```
@@ -58,7 +58,7 @@ Employee.insert(insert, function(err, value) {
 		...
 		});
 ```
-##Update
+## Update
 Insert takes three arguments: an object with the data to insert, the id of the row to update, and a callback function that gets passed and err and value params. 
 ```
 update = {};
@@ -79,9 +79,9 @@ Employee.remove(id, function(err, value) {
 }
 ```
 
-#Views
+# Views
 
-##Limitations
+## Limitations
 Currently you can only use simple views that include the keys from the original tables.
 		So 
 ```
@@ -96,11 +96,11 @@ create view empOffice as select count(*) empNumber,  offices.* from employees, o
 Aggregates the number of employees in the first column. When a new employee record is inserted, there's no obvious way to tell which rows in this view changed. At this point, this kind of view is not supported.
 *Updatable views are not supported.* You can't insert, update or delete from a view.
 
-##Usage
+## Usage
 Once you create a view in the DB, subject to the above limitations, you use it the same as you would a table. The driver creates the objects server side, and you create a Table object using the view name. 
 
 
-#Selects
+# Selects
 
 Unlike views, there are not limitations to what's included in a select statement. Selects, however *are not reactive*. This means that changes to rows shown in a resultset from a select will not change until the user reloads the page.
 
@@ -110,14 +110,14 @@ You create selects on the server using the following syntax. The first argument 
 Devwik.SQL.Select('empsCities', 'select employees.*, offices.city from employees, offices where offices.officeCode = employees.officecode');
 ```
 
-##Client
+## Client
 Just define which select you're using
 ```
 var Select = new Meteor.Select('empsCities');
 Select.find({}, {sort: {employeeNumber: -1}});
 ```
 
-#Transactions
+# Transactions
 
 ## Engine
 You need to use an engine that supports transaction such as *innodb*, otherwise all transaction related statements are ignored.
