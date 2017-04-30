@@ -1,5 +1,5 @@
 /*
- * A select statemet
+ * A select statement
  * * @param {String} statement: the actual select statment
  */
 
